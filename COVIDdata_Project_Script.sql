@@ -142,32 +142,32 @@ WHERE dea.continent is not null
 --=============================================
 
 -- 1)
-SELECT SUM(new_cases) AS TotalCases, SUM(CAST(new_deaths as int)) AS TotalDeaths, SUM(CAST(new_deaths as int))/SUM(new_cases) * 100 AS PercentDeath
+SELECT SUM(new_cases) AS TotalCases, SUM(CAST(new_deaths AS int)) AS TotalDeaths, SUM(CAST(new_deaths AS int))/SUM(new_cases) * 100 AS PercentDeath
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 --GROUP BY date
 ORDER BY 1,2
 
 -- 2)
-SELECT Location, MAX(cast(total_deaths as int)) as TotalDeathCount
+SELECT Location, MAX(cast(total_deaths AS int)) AS TotalDeathCount
 FROM PortfolioProject..CovidDeaths
 --WHERE Location like 'Canada'
 WHERE continent IS NULL
 AND Location NOT IN ('World', 'European Union', 'International') 
 AND Location NOT LIKE '%income'
-GROUP by Location
-ORDER by TotalDeathCount desc
+GROUP BY Location
+ORDER BY TotalDeathCount DESC
 
 -- 3)
-SELECT Location, population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/population))*100 as PercentPopulationInfected
+SELECT Location, Population, MAX(total_cases) AS HighestInfectionCount, MAX((total_cases/Population))*100 AS PercentPopulationInfected
 FROM PortfolioProject..CovidDeaths
 --WHERE Location like 'Canada'
-GROUP by Location, population
-ORDER by PercentPopulationInfected desc
+GROUP BY Location, Population
+ORDER BY PercentPopulationInfected DESC
 
 -- 4)
-SELECT Location, population, date, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/population))*100 as PercentPopulationInfected
+SELECT Location, Population, date, MAX(total_cases) AS HighestInfectionCount, MAX((total_cases/Population))*100 AS PercentPopulationInfected
 FROM PortfolioProject..CovidDeaths
 --WHERE Location like 'Canada'
-GROUP by Location, population, date
-ORDER by PercentPopulationInfected desc
+GROUP BY Location, Population, date
+ORDER BY PercentPopulationInfected DESC
