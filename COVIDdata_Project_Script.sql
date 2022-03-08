@@ -134,3 +134,40 @@ JOIN PortfolioProject..CovidVaccinations vac
 	AND dea.date = vac.date
 WHERE dea.continent is not null
 --ORDER BY 2,3
+
+
+
+--=============================================
+-- TABLEAU QUERIES
+--=============================================
+
+-- 1)
+SELECT SUM(new_cases) AS TotalCases, SUM(CAST(new_deaths as int)) AS TotalDeaths, SUM(CAST(new_deaths as int))/SUM(new_cases) * 100 AS PercentDeath
+FROM PortfolioProject..CovidDeaths
+WHERE continent IS NOT NULL
+--GROUP BY date
+ORDER BY 1,2
+
+-- 2)
+SELECT Location, MAX(cast(total_deaths as int)) as TotalDeathCount
+FROM PortfolioProject..CovidDeaths
+--WHERE Location like 'Canada'
+WHERE continent IS NULL
+AND Location NOT IN ('World', 'European Union', 'International') 
+AND Location NOT LIKE '%income'
+GROUP by Location
+ORDER by TotalDeathCount desc
+
+-- 3)
+SELECT Location, population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/population))*100 as PercentPopulationInfected
+FROM PortfolioProject..CovidDeaths
+--WHERE Location like 'Canada'
+GROUP by Location, population
+ORDER by PercentPopulationInfected desc
+
+-- 4)
+SELECT Location, population, date, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/population))*100 as PercentPopulationInfected
+FROM PortfolioProject..CovidDeaths
+--WHERE Location like 'Canada'
+GROUP by Location, population, date
+ORDER by PercentPopulationInfected desc
